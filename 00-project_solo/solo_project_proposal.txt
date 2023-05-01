@@ -1,0 +1,5 @@
+Solo Project Proposal - Henry Chen
+Title: Beast Mode Gyms Booking Website
+Description:
+Stack: Python (most likely)
+GitHub repo link: https://github.com/0xhenrychen/coding-dojo-week-21-24-projects-and-algorithms
