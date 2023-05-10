@@ -1,0 +1,7 @@
+- add view all students functionality
+
+- CSS - stylize in bootstrap.
+
+- format location, date, and time (how to reference the name)
+
+- Add messaging functionality.
