@@ -1,6 +1,6 @@
 from flask_app import app
 from flask import render_template, redirect, request, session, flash
-from flask_app.models import message_model, class_model, user_model
+from flask_app.models import comment_model, class_model, user_model
 
 # @app.route("/messages/create/<int:ride_id>", methods=["POST"])
 # def message_form(ride_id):

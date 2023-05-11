@@ -30,7 +30,7 @@
     </style>
 </head>
 <body>
-    {% if is_trainer == "trainer_yes" %}
+    {% if session["is_trainer"] == "trainer_yes" %}
         <h2>Welcome, Coach {{ session["first_name"] }}!</h2>
         <h4>Below are the Classes You're Scheduled to Teach:</h4>
         <p><a href="/class/new">Schedule a Class</a> | <a href="/logout">Log Out</a></p>
@@ -52,8 +52,7 @@
                             <td>{{ class.class_location }}</td>
                             <td>{{ class.class_date }}</td>
                             <td>{{ class.class_time }}</td>
-                        
-                            <td><a href="/class/edit/{{class.id}}">Modify</a> | <a href="/class/trainees/{{class.id}}"></a>Students (Coming Soon)</td>
+                            <td><a href="/class/edit/{{class.id}}">Modify</a> | <a href="/class/trainees/{{class.id}}">Students</a></td>
                     {% endfor %}
                 </table>
             </div>
@@ -85,7 +84,7 @@
                             <td>{{ class.class_date }}</td>
                             <td>{{ class.class_time }}</td>
                         
-                            <td><a href="/class/cancel/{{class.id}}">Cancel</a></p>
+                            <td><a href="/class/cancel/{{class.id}}">Cancel</a> | <a href="/class/details/{{class.id}}">Details</a></td>
                     {% endfor %}
                 </table>
             </div>
@@ -112,7 +111,7 @@
                             <td>{{ class.class_date }}</td>
                             <td>{{ class.class_time }}</td>
                         
-                            <td><a href="/class/schedule/{{class.id}}">Schedule</a></p>
+                            <td><a href="/class/schedule/{{class.id}}">Schedule</a></td>
                     {% endfor %}
                 </table>
             </div>

@@ -1,7 +1,16 @@
-- add view all students functionality
+- in dashboard, it's still showing classes that a trainee has already booked (mysql query statement isn't correct for get_all_classes_trainee_not_scheduled function)
+
+
+ SELECT * from classes
+                    JOIN joined_classes ON classes.id = joined_classes.class_id
+                    JOIN users TR ON TR.id = classes.trainer_id
+                    WHERE joined_classes.user_id != 2 OR (classes.id != joined_classes.class_id AND joined_classes.user_id = 2)
+                    ORDER BY classes.class_date ASC, classes.class_time ASC;
+
+- Add messaging functionality.
 
 - CSS - stylize in bootstrap.
 
 - format location, date, and time (how to reference the name)
 
-- Add messaging functionality.
+- For trainees going to trainer pages, redirect them to a new page (saying they aren't a trainer)

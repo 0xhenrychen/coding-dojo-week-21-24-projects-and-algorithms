@@ -1,6 +1,6 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
-from flask_app.models import user_model, message_model
+from flask_app.models import user_model, comment_model
 
 database = "beast_mode_gyms_db"
 
@@ -49,10 +49,6 @@ class Class:
                     WHERE classes.trainer_id = %(user_id)s
                     ORDER BY class_date ASC, class_time ASC;
                 '''
-        # query = ''' SELECT * FROM classes
-        #     JOIN users ON users.id = classes.trainer_id
-        #     WHERE classes.trainee_id IS NULL;
-        # '''
         results = connectToMySQL(database).query_db(query, data)
         output = []
         for row in results:
@@ -72,12 +68,38 @@ class Class:
         return output
     
     @classmethod
+    def get_all_trainees_class(cls, data):
+        query = ''' SELECT * FROM joined_classes
+                    JOIN users ON users.id = joined_classes.user_id
+                    JOIN classes ON classes.id = joined_classes.class_id
+                    WHERE classes.id = %(class_id)s;
+                '''
+        results = connectToMySQL(database).query_db(query, data)
+
+        # output = []
+        # for row in results:
+        #     this_class = cls(row)
+        #     user_data = {
+        #         "id": row["users.id"],
+        #         "first_name": row["first_name"],
+        #         "last_name": row["last_name"],
+        #         "email": row["email"],
+        #         "password": row["password"],
+        #         "created_at": row["users.created_at"],
+        #         "updated_at": row["users.updated_at"]
+        #     }
+        #     user_trainer = user_model.User(user_data)
+        #     this_class.trainer = user_trainer
+        #     output.append(this_class)
+        return results
+    
+    @classmethod
     def get_all_classes_trainee_scheduled(cls, data):
         query = ''' SELECT * from joined_classes
                     JOIN classes ON classes.id = joined_classes.class_id
                     JOIN users ON users.id = joined_classes.user_id
                     JOIN users TR ON TR.id = classes.trainer_id 
-                    WHERE users.id = 2
+                    WHERE users.id = %(user_id)s
                     ORDER BY classes.class_date ASC, classes.class_time ASC;
                 '''       
         results = connectToMySQL(database).query_db(query, data)
@@ -114,11 +136,22 @@ class Class:
     
     @classmethod
     def get_all_classes_trainee_not_scheduled(cls, data):
-        query = ''' SELECT * from classes
-                    LEFT JOIN joined_classes ON classes.id = joined_classes.class_id
-                    JOIN users TR ON TR.id = classes.trainer_id
-                    WHERE joined_classes.user_id IS NULL OR joined_classes.user_id != %(user_id)s
-                    ORDER BY classes.class_date ASC, classes.class_time ASC;
+        # query = ''' SELECT * from classes
+        #             LEFT JOIN joined_classes ON classes.id = joined_classes.class_id
+        #             JOIN users TR ON TR.id = classes.trainer_id
+        #             WHERE joined_classes.user_id IS NULL AND joined_classes.user_id != %(user_id)s
+        #             ORDER BY classes.class_date ASC, classes.class_time ASC;
+        #         '''
+        # query = ''' SELECT * from classes
+        #             LEFT JOIN joined_classes ON classes.id = joined_classes.class_id
+        #             JOIN users TR ON TR.id = classes.trainer_id
+        #             WHERE (joined_classes.user_id IS NULL OR joined_classes.user_id != %(user_id)s)
+        #             ORDER BY classes.class_date ASC, classes.class_time ASC;
+        #         '''
+        query = '''
+                    SELECT * FROM classes
+                    LEFT JOIN users ON users.id = classes.trainer_id
+                    WHERE classes.id NOT IN (SELECT class_id FROM joined_classes WHERE user_id = %(user_id)s);
                 '''
         results = connectToMySQL(database).query_db(query, data)
         output = []
@@ -179,6 +212,14 @@ class Class:
             
     #         output.append(this_ride)
     #     return output
+    
+    @classmethod
+    def get_class_by_id(cls, data):
+        query = ''' SELECT * FROM classes
+                    WHERE classes.id = %(class_id)s;
+                '''
+        results = connectToMySQL(database).query_db(query, data)
+        return results[0]
     
     @classmethod
     def get_class_and_trainer_by_id(cls, data):

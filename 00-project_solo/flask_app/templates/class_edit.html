@@ -40,49 +40,57 @@
     </style>
 </head>
 <body>
-    <h2>Update Class Details, Coach {{ session["first_name"] }}!</h2>
-    <p><a href="/classes/dashboard">Home</a> | <a href="/logout">Log Out</a></p>
-    {% with messages = get_flashed_messages(category_filter=["class"]) %}
-        {% if messages %}
-            {% for message in messages %}
-                <p style="color: red;">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    <form action="/edit_class_form/{{ this_class.id }}" method="POST">
-        <div class="container">
-            <div>
-                <label for="class_name">Name:</label>
-                <input type="text" name="class_name" value={{ this_class.class_name }}>
+    {% if session["is_trainer"] == "trainer_yes" and session["user_id"] == this_class.trainer_id %}
+        <h2>Update Class Details, Coach {{ session["first_name"] }}!</h2>
+        <p><a href="/classes/dashboard">Home</a> | <a href="/logout">Log Out</a></p>
+        {% with messages = get_flashed_messages(category_filter=["class"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color: red;">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form action="/edit_class_form/{{ this_class.id }}" method="POST">
+            <div class="container">
+                <div>
+                    <label for="class_name">Name:</label>
+                    <input type="text" name="class_name" value={{ this_class.class_name }}>
+                </div>
+                <div>
+                    <label for="class_date">Date:</label>
+                    <input type="date" name="class_date" value={{ this_class.class_date }}>
+                </div>
+                <div>
+                    <label for="class_time">Time:</label>
+                    <input type="time" name="class_time" value={{ this_class.class_time }}>
+                </div>
+                <div>
+                    <label for="class_location">Location:</label>
+                    <select id="class_location" name="class_location" value={{ this_class.class_location }}>
+                        <option value="">-- Select One --</option>
+                        <option value="East Los Angeles">East Los Angeles</option>
+                        <option value="Pico Rivera">Pico Rivera</option>
+                        <option value="Alhambra">Alhambra</option>
+                        <option value="El Monte">El Monte</option>
+                        <option value="Downey">Downey</option>
+                        <option value="Pasadena">Pasadena</option>
+                    </select>
+                </div>
+                <!-- <div>
+                    <label for="details">Details:</label>
+                    <textarea name="details" type="text" cols="40" rows="10"></textarea>
+                </div> -->
+                <div>
+                    <button type="submit" class="btn btn-primary">Update</button> <button type="button" class="btn btn-danger"><a href="/class/delete/{{this_class.id}}">Delete</a></button> <button type="button" class="btn btn-warning" onclick="location.href='/classes/dashboard'">Cancel</button>
+                </div>
             </div>
-            <div>
-                <label for="class_date">Date:</label>
-                <input type="date" name="class_date" value={{ this_class.class_date }}>
-            </div>
-            <div>
-                <label for="class_time">Time:</label>
-                <input type="time" name="class_time" value={{ this_class.class_time }}>
-            </div>
-            <div>
-                <label for="class_location">Location:</label>
-                <select id="class_location" name="class_location" value={{ this_class.class_location }}>
-                    <option value="">-- Select One --</option>
-                    <option value="East Los Angeles">East Los Angeles</option>
-                    <option value="Pico Rivera">Pico Rivera</option>
-                    <option value="Alhambra">Alhambra</option>
-                    <option value="El Monte">El Monte</option>
-                    <option value="Downey">Downey</option>
-                    <option value="Pasadena">Pasadena</option>
-                </select>
-            </div>
-            <!-- <div>
-                <label for="details">Details:</label>
-                <textarea name="details" type="text" cols="40" rows="10"></textarea>
-            </div> -->
-            <div>
-                <input type="submit" value="Update"> <button type="button" class="btn btn-danger"><a href="/class/delete/{{this_class.id}}">Delete</a></button> <button type="button" class="btn btn-warning" onclick="location.href='/classes/dashboard'">Cancel</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    {% elif session["is_trainer"] != "trainer_yes" %}
+        <h4>Hey, {{ session["first_name"] }}! Looks like you're not a coach. Please go back to the home page to view your classes.</h4>
+        <p><a href="/classes/dashboard">Home</a> | <a href="/logout">Log Out</a></p>
+    {% else %}
+        <h4>Hey, {{ session["first_name"] }}! Looks like you're NOT the coach for this class. Please go back to the home page to view your classes.</h4>
+        <p><a href="/classes/dashboard">Home</a> | <a href="/logout">Log Out</a></p>  
+    {% endif %}
 </body>
 </html>

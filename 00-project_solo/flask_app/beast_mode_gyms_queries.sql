@@ -1,10 +1,10 @@
-SELECT * from users;
-SELECT * from classes;
-SELECT * from joined_classes;
+SELECT * FROM users;
+SELECT * FROM classes;
+SELECT * FROM joined_classes;
+SELECT * FROM comments;
 
 SELECT * FROM classes
-            JOIN users ON users.id = classes.trainer_id
-            WHERE classes.id = 2;
+                    WHERE classes.id = 2;
             
 DELETE FROM classes
             WHERE ID = 1;
@@ -58,7 +58,7 @@ SELECT * from joined_classes
                     JOIN classes ON classes.id = joined_classes.class_id
                     JOIN users ON users.id = joined_classes.user_id
                     JOIN users TR ON TR.id = classes.trainer_id 
-                    WHERE users.id = 2
+                    WHERE users.id = 3
                     ORDER BY classes.class_date ASC, classes.class_time ASC;
 
 SELECT * from classes
@@ -68,7 +68,21 @@ SELECT * from classes
                     ORDER BY class_date ASC, class_time ASC;
                     
                     SELECT * from classes
-                    LEFT JOIN joined_classes ON classes.id = joined_classes.class_id
+                    JOIN joined_classes ON classes.id = joined_classes.class_id
                     JOIN users TR ON TR.id = classes.trainer_id
-                    WHERE joined_classes.user_id IS NULL OR joined_classes.user_id != 2
+                    WHERE joined_classes.user_id != 2 AND (classes.id != joined_classes.class_id AND joined_classes.user_id != 2)
                     ORDER BY classes.class_date ASC, classes.class_time ASC;
+                    
+                    
+                    
+SELECT * FROM joined_classes
+                    JOIN users ON users.id = joined_classes.user_id
+                    JOIN classes ON classes.id = joined_classes.class_id
+                    WHERE classes.id = 1;
+                    
+SELECT * FROM classes
+LEFT JOIN users ON users.id = classes.trainer_id
+WHERE classes.id NOT IN (SELECT class_id FROM joined_classes WHERE user_id = 2);
+
+INSERT INTO comments (class_comment, class_id, user_id)
+                    VALUES ("hey world 123", 11, 2);
