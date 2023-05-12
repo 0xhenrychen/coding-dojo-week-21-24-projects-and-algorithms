@@ -1,6 +1,5 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
-from flask_app.models import class_model, comment_model
 
 import re
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
@@ -41,16 +40,9 @@ class User:
         results = connectToMySQL(database).query_db(query, data)
         return results
     
-    # @classmethod
-    # def is_trainer(data):
-    #     query = ''' SELECT * FROM users
-    #                 WHERE ID = %(user_id)
-    #             '''
-    
     @staticmethod
     def validate_user_register_form(user):
         is_valid = True
-        
         if len(user["first_name"]) < 2:
             flash("First name must be at least 2 letters.", "register")
             is_valid = False
@@ -60,12 +52,10 @@ class User:
         if not EMAIL_REGEX.match(user['email']):
             flash("Please enter a valid email address.", "register")
             is_valid = False
-        
         query = ''' SELECT * FROM users
                     WHERE email = %(email)s
                 '''
         results = connectToMySQL(database).query_db(query, user)
-
         if results != ():
             flash("That email already exists. Please enter a new one.", "register")
             is_valid = False
@@ -78,7 +68,6 @@ class User:
         elif len(user["password1"]) and len(user["password2"]) < 8:
             flash("Password must be at least 8 characters.", "register")
             is_valid = False
-            
         if user["trainer"] == "":
             flash("Please select if you're a trainer or not.", "register")
             is_valid = False
@@ -88,17 +77,14 @@ class User:
     def validate_user_login_form(user):
         is_valid = True
         check_if_email_exists = False
-
         if not EMAIL_REGEX.match(user['email']):
             flash("Please enter a valid email address.", "login")
             check_if_email_exists = True
             is_valid = False
-            
         query = ''' SELECT * FROM users
                     WHERE email = %(email)s
                 '''
         results_email_check = connectToMySQL(database).query_db(query, user)
-        
         if results_email_check == () and check_if_email_exists == False:
             flash("That email doesn't exist. Please register for a new account.", "login")
             check_if_email_exists = True

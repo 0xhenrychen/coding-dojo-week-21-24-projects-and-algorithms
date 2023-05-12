@@ -1,6 +1,6 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
-from flask_app.models import user_model, class_model
+from flask_app.models import user_model
 
 database = "beast_mode_gyms_db"
 

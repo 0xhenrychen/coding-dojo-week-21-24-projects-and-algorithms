@@ -1,11 +1,9 @@
 from flask_app import app
 from flask import render_template, redirect, request, session, flash
-from flask_app.models import user_model, class_model, comment_model
+from flask_app.models import user_model
 from datetime import datetime
 from flask_bcrypt import Bcrypt        
 bcrypt = Bcrypt(app)
-
-# dateFormat = "%#m/%#d/%Y %I:%M %p"
 
 @app.route("/")
 def index_page():
@@ -39,7 +37,6 @@ def login_form():
                 "email": request.form["email"],
                 "password3": request.form["password3"]
             }
-    
     if user_model.User.validate_user_login_form(data):
         this_user = user_model.User.get_user_by_email(data)
         if this_user:
@@ -54,16 +51,4 @@ def login_form():
 @app.route("/logout")
 def logout_page():
     session.clear()
-    return redirect("/")
-
-@app.route("/create_class_comment_form/<int:class_id>", methods=["POST"])
-def comment_form(class_id):
-    if "user_id" in session:
-        data = request.form.to_dict()
-        data["class_id"] = class_id
-        data["user_id"] = session["user_id"]
-        print("whats the data", data) 
-        comment_model.Comment.save_comment(data)
-        print("does it make it here???")
-        return redirect(f'/class/details/{ class_id }')
     return redirect("/")

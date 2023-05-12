@@ -4,118 +4,116 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
-    <title>Beast Mode Gyms - Trainer | Dashboard</title>
+    <title>Beast Mode Gyms - Classes Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-evenly;
-            width: 1000px;
-        }
-
-        .container_ride {
-            border: 1px solid black;
-            margin: 10px auto;
-            padding: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="../static/style.css">
 </head>
-<body>
-    {% if session["is_trainer"] == "trainer_yes" %}
-        <h2>Welcome, Coach {{ session["first_name"] }}!</h2>
-        <h4>Below are the Classes You're Scheduled to Teach:</h4>
-        <p><a href="/class/new">Schedule a Class</a> | <a href="/logout">Log Out</a></p>
-        <div class="container">
-            <div class="container_requests">
-                <table class="table table-light">
+<body id="body_classes_dashboard_page">
+    <div>
+        {% if session["is_trainer"] == "trainer_yes" %}
+            <div class="container_header">
+                <div>
+                    <h2>Welcome, Coach {{ session["first_name"] }}!</h2>
+                    <h4>Below are the Classes You're Scheduled to Teach:</h4>
+                </div>
+                <div>
+                    <p id="header_p">[<a href="/class/new">Schedule a Class</a>] [<a href="/logout">Log Out</a>]</p>
+                </div>
+            </div>
+            <div class="container_table">
+                <table class="table table-striped table-light">
                     <thead>
-                        <td>ID</td>
-                        <td>Name</td>
-                        <td>Location</td>
-                        <td>Date</td>
-                        <td>Time</td>
-                        <td>Actions</td>
+                        <tr class="table-warning">
+                            <th scope="col">Class ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Actions</th>
+                        </tr>
                     </thead>
-                    {% for class in classes_trainer %}
-                        <tr>
-                            <td>{{ class.id }}</td>
-                            <td>{{ class.class_name }}</td>
-                            <td>{{ class.class_location }}</td>
-                            <td>{{ class.class_date }}</td>
-                            <td>{{ class.class_time }}</td>
-                            <td><a href="/class/edit/{{class.id}}">Modify</a> | <a href="/class/trainees/{{class.id}}">Students</a></td>
-                    {% endfor %}
+                    <tbody>
+                        {% for class in classes_trainer %}
+                            <tr>
+                                <td>{{ class.id }}</td>
+                                <td>{{ class.class_name }}</td>
+                                <td>{{ class.class_location }}</td>
+                                <td>{{ class.class_date.strftime('%a | %b %dth, %Y') }}</td>
+                                <td>{{ class.class_time }}</td>
+                                <td><a href="/class/edit/{{class.id}}">Modify</a> | <a href="/class/trainees/{{class.id}}">Students</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
-        </div>
-    {% else %}
-        <h2>Welcome, {{ session["first_name"] }}!</h2>
-        <h4>Below are Your Scheduled Classes:</h4>
-        <p><a href="/logout">Log Out</a></p>
-        <div class="container">
-            <div class="container_requests">
-                <table class="table table-light">
+        {% else %}
+            <div class="container_header">
+                <div>
+                    <h2>Welcome, {{ session["first_name"] }}!</h2>
+                    <h4>Below are Your Scheduled Classes:</h4>
+                </div>
+                <div>
+                    <p id="header_p">[<a href="/logout">Log Out</a>]</p>
+                </div>
+            </div>
+            <div class="container_table">
+                <table class="table table-striped table-light">
                     <thead>
-                        <td>ID</td>
-                        <td>Name</td>
-                        <td>Trainer</td>
-                        <td>Trainee</td>
-                        <td>Location</td>
-                        <td>Date</td>
-                        <td>Time</td>
-                        <td>Actions</td>
+                        <tr class="table-success">
+                            <th scope="col">Class ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Trainer</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Actions</th>
+                        </tr>
                     </thead>
-                    {% for class in classes_scheduled %}
-                        <tr>
-                            <td>{{ class.id }}</td>
-                            <td>{{ class.class_name }}</td>
-                            <td>{{ class.trainer.first_name }} {{ class.trainer.last_name }}</td>
-                            <td>{{ class.trainee.first_name }} {{ class.trainee.last_name }}</td>
-                            <td>{{ class.class_location }}</td>
-                            <td>{{ class.class_date }}</td>
-                            <td>{{ class.class_time }}</td>
-                        
-                            <td><a href="/class/cancel/{{class.id}}">Cancel</a> | <a href="/class/details/{{class.id}}">Details</a></td>
-                    {% endfor %}
+                    <tbody>
+                        {% for class in classes_scheduled %}
+                            <tr>
+                                <td>{{ class.id }}</td>
+                                <td>{{ class.class_name }}</td>
+                                <td>{{ class.trainer.first_name }} {{ class.trainer.last_name }}</td>
+                                <td>{{ class.class_location }}</td>
+                                <td>{{ class.class_date.strftime('%a | %b %dth, %Y') }}</td>
+                                <td>{{ class.class_time }}</td>
+                            
+                                <td><a href="/class/cancel/{{class.id}}">Cancel</a> | <a href="/class/details/{{class.id}}">Details</a></td>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
-        </div>
-        <h4>Book Additional Classes: (Need to show only unscheduled classes)</h4>
-        <div class="container">
-            <div class="container_requests">
-                <table class="table table-light">
+                <h4>Book Additional Classes:</h4>
+            <div class="container_table">
+                <table class="table table-striped table-light">
                     <thead>
-                        <td>ID</td>
-                        <td>Name</td>
-                        <td>Trainer</td>
-                        <td>Location</td>
-                        <td>Date</td>
-                        <td>Time</td>
-                        <td>Actions</td>
+                        <tr class="table-warning">
+                            <th scope="col">Class ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Trainer</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Actions</th>
+                        </tr>
                     </thead>
-                    {% for class in classes_not_scheduled %}
-                        <tr>
-                            <td>{{ class.id }}</td>
-                            <td>{{ class.class_name }}</td>
-                            <td>{{ class.trainer.first_name }} {{ class.trainer.last_name }}</td>
-                            <td>{{ class.class_location }}</td>
-                            <td>{{ class.class_date }}</td>
-                            <td>{{ class.class_time }}</td>
-                        
-                            <td><a href="/class/schedule/{{class.id}}">Schedule</a></td>
-                    {% endfor %}
+                    <tbody>
+                        {% for class in classes_not_scheduled %}
+                            <tr>
+                                <td>{{ class.id }}</td>
+                                <td>{{ class.class_name }}</td>
+                                <td>{{ class.trainer.first_name }} {{ class.trainer.last_name }}</td>
+                                <td>{{ class.class_location }}</td>
+                                <td>{{ class.class_date.strftime('%a | %b %dth, %Y') }}</td>
+                                <td>{{ class.class_time }}</td>
+                            
+                                <td><a href="/class/schedule/{{class.id}}">Schedule</a></td>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
 </body>
 </html>

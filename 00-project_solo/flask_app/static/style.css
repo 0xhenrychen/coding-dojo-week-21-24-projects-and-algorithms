@@ -1,0 +1,129 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 20px 20px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+form {
+    padding: 10px;
+    
+}
+
+label {
+    margin: 5px;
+}
+
+input[type=submit] {
+    padding: 5px 20px;
+    background-color: burlywood;
+    color: black;
+    border-radius: 10px;
+    border: 0px;
+}
+
+#body_login_page {
+    margin-top: 20px;
+    background-color: burlywood;
+    background-image: url("background_login.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    color: aliceblue;
+}
+
+#body_classes_dashboard_page {
+    margin-top: 20px;
+    background-color: burlywood;
+    background-image: url("background_classes_dashboard.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    color: aliceblue;
+}
+
+#body_class_create_page, #body_class_edit_page {
+    margin-top: 20px;
+    background-color: burlywood;
+    background-image: url("background_class_create.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    color: aliceblue;
+}
+
+h1, #h3_login, p {
+    text-align: center;
+}
+
+#h3_login {
+    background-color: white;
+    padding: 10px;
+    color: black;
+    border-radius: 8px;
+}
+
+#p_login_validation {
+    background-color: red;
+    margin: -2px;
+    color: white;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#unauthorized_user_p {
+    background-color: red;
+    color: white;
+    width: 500px;
+    padding: 20px;
+    margin: 200px auto;
+}
+
+#body_classes_dashboard_page a, #body_class_create_page a {
+    color: black;
+    text-decoration: underline;
+}
+
+#body_classes_dashboard_page a:hover, #body_class_create_page a:hover {
+    color: burlywood;
+}
+
+#class_create_form label, #class_edit_form label {
+    color: black;
+}
+
+.container_login {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 50px;
+}
+
+.container_header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.container_table {
+    width: auto;
+    margin: 20px 0 60px 0;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form_width {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}

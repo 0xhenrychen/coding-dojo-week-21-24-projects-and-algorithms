@@ -1,0 +1,27 @@
+Group Project Proposal - 2023 Projects and Algorithms, Instructors Lee and Jason
+
+Team members:
+
+- Jessica [Banzet] (team leader), React/front-end
+
+- Alexandra Riano, CSS/design
+
+- Henry Chen, back-end
+
+Stack: JavaScript/MERN
+
+Title: Get Out
+
+GitHub repo link (temporary placeholder): https://github.com/0xhenrychen/coding-dojo-week-21-24-projects-and-algorithms/tree/main/01-project_group/
+
+Project name: Get Out Outdoors Social Media Website
+
+Project description: After having a Zoom meeting, we agreed to have our group project revolve around a social-media app/website, i.e. Instagram and Facebook. We also wanted to incorporate a common passion among all of us, such as the outdoors.
+
+Being that our stack will be JavaScript/MERN, we'll use React as our front-end JS library, MongoDB as our database, and Express as our framework with node.js.
+
+We'll incorporate all the MVPs in our outdoors social media app, such as CRUD features, CSS implementation (most likely with Bootstrap), login/registration, and data-validation.
+
+Specifically, we'll have users, i.e. outdoor enthusiasts, be able to create an account/log in, create posts including uploading an image and choosing a type of activity and view/comment/like other users' posts.
+
+Bonus features: Login and registration with validation, protected routes, CSS Bookstrap framework, image upload in the post, and potentially others depending on time and difficulty.

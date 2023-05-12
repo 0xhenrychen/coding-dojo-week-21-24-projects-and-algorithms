@@ -6,88 +6,60 @@
     <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
     <title>Beast Mode Gyms - Trainer | Create Your Class</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        form {
-            width: 800px;
-            text-align: center;
-            display: inline-block;
-            padding: 20px;
-            color: black;
-            
-        }
-
-        label {
-            margin: 10px;
-        }
-
-        input[type=submit] {
-            padding: 5px 20px;
-            background-color: black;
-            color: white;
-            border-radius: 10px;
-            border: 0px;
-        }
-    </style>
+    <link rel="stylesheet" href="../static/style.css">
 </head>
-<body>
-    {% if session["is_trainer"] == "trainer_yes" %}
-        <h2>{{ session["first_name"] }}, Create a Class!</h2>
-        <p><a href="/classes/dashboard">Home</a> | <a href="/logout">Log Out</a></p>
-        {% with messages = get_flashed_messages(category_filter=["class"]) %}
-            {% if messages %}
-                {% for message in messages %}
-                    <p style="color: red;">{{ message }}</p>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        <form action="/create_class_form" method="POST">
-            <div class="container">
-                <div>
-                    <label for="class_name">Name:</label>
-                    <input type="text" name="class_name">
-                </div>
-                <div>
-                    <label for="class_date">Date:</label>
-                    <input type="date" name="class_date">
-                </div>
-                <div>
-                    <label for="class_time">Time:</label>
-                    <input type="time" name="class_time">
-                </div>
-                <div>
-                    <label for="class_location">Location:</label>
-                    <select id="class_location" name="class_location">
-                        <option value="">-- Select One --</option>
-                        <option value="East Los Angeles">East Los Angeles</option>
-                        <option value="Pico Rivera">Pico Rivera</option>
-                        <option value="Alhambra">Alhambra</option>
-                        <option value="El Monte">El Monte</option>
-                        <option value="Downey">Downey</option>
-                        <option value="Pasadena">Pasadena</option>
-                    </select>
-                </div>
-                <!-- <div>
-                    <label for="details">Details:</label>
-                    <textarea name="details" type="text" cols="40" rows="10"></textarea>
-                </div> -->
-                <div>
-                    <input type="submit" value="Submit">
-                </div>
+<body id="body_class_create_page">
+    <div>
+        {% if session["is_trainer"] == "trainer_yes" %}
+            <div class="container_header">
+                <h2>{{ session["first_name"] }}, Create Your Class:</h2>
+                <p id="header_p">[<a href="/classes/dashboard">Home</a>] | [<a href="/logout">Log Out</a>]</p>
             </div>
-        </form>
-    {% else %}
-        <h4>Hey, {{ session["first_name"] }}! Looks like you're NOT the coach so you're not able to create your own classes. Please go back to the home page.</h4>
-        <p><a href="/classes/dashboard">Home</a> | <a href="/logout">Log Out</a></p>  
-    {% endif %}
+            {% with messages = get_flashed_messages(category_filter=["class"]) %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p id="p_login_validation">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form action="/create_class_form" method="POST" id="class_create_form">
+                <div class="form-group row form_width">
+                    <div>
+                        <label for="class_name">Name:</label>
+                        <input type="text" name="class_name" class="form-control form-control-sm">
+                    </div>
+                    <div>
+                        <label for="class_date">Date:</label>
+                        <input type="date" name="class_date" class="form-control form-control-sm">
+                    </div>
+                    <div>
+                        <label for="class_time">Time:</label>
+                        <input type="time" name="class_time" class="form-control form-control-sm">
+                    </div>
+                    <div>
+                        <label for="class_location">Location:</label>
+                        <select id="class_location" name="class_location" class="form-control form-control-sm">
+                            <option value="">-- Select One --</option>
+                            <option value="East Los Angeles">East Los Angeles</option>
+                            <option value="Pico Rivera">Pico Rivera</option>
+                            <option value="Alhambra">Alhambra</option>
+                            <option value="El Monte">El Monte</option>
+                            <option value="Downey">Downey</option>
+                            <option value="Pasadena">Pasadena</option>
+                        </select>
+                    </div>
+                    <p></p>
+                    <div>
+                        <input type="submit" value="Submit">
+                    </div>
+                </div>
+            </form>
+        {% else %}
+            <div class="container_header">
+                    <p id="header_p"><a href="/classes/dashboard">Home</a> | <a href="/logout">Log Out</a></p>
+            </div> 
+            <p id="unauthorized_user_p">Hey, {{ session["first_name"] }}. It looks like you're NOT a trainer so you're not able to create your own classes. Please go back to the <a href="/classes/dashboard">home page</a>.</p>
+        {% endif %}
+    </div>
 </body>
 </html>
